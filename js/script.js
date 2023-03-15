@@ -28,31 +28,48 @@ const design = document.getElementById('design');
 design.addEventListener('change', (e) => {
 
     const allColors = document.querySelectorAll('#color option');
-    const jsPuns = document.querySelectorAll('option[data-theme="js puns"]');
-    const jsHeart = document.querySelectorAll('option[data-theme="heart js"]');
 
-    if (e.target.value === 'js puns') {
+    color.style.display = "block";
+
+    for (let color of allColors){
         
-        color.style.display = "block";
-        for (let heart of jsHeart) {
-            heart.hidden = true;
-            heart.selected = true;
-            for (let pun of jsPuns) {
-                pun.hidden = false;
-            }
+        if (color.getAttribute('data-theme') === e.target.value) {
+            color.hidden = false;
+        } else {
+        color.hidden = true;
+        color.selected = false;
         }
-        
-    } else if (e.target.value === 'heart js') {
-        
-        color.style.display = "block";
-        for (let pun of jsPuns) {
-            pun.hidden = true;
-            pun.selected = true;
-            for (let heart of jsHeart) {
-                heart.hidden = false;
-            }
-        }
-    } else {
-        color.style.display = "none";
     }
+});
+
+// Activities
+
+// Get the "activities" fieldset element
+const activitiesFieldset = document.getElementById("activities");
+
+// Get the "activity-cost" element
+const activityCostElement = document.getElementById("activities-cost");
+
+// Initialize the total cost
+let totalCost = 0;
+
+activities.addEventListener("change", (e) => {
+    const target = e.target;
+
+    if (target.type === "checkbox") {
+        // Get the cost of the activity from the "data-cost" attribute
+        const cost = parseInt(target.getAttribute("data-cost"));
+
+        // If the checkbox is checked, add the cost; otherwise, subtract it
+        if (target.checked) {
+            totalCost += cost;
+        } else {
+            totalCost -= cost;
+        }
+
+        // Update the "activity-cost" element to display the new total cost
+        activityCostElement.textContent = `Total: $${totalCost}`;
+    }
+
+    
 });
